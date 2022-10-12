@@ -1,0 +1,51 @@
+const Reservation = require("../models/reservationModel");
+
+//get all reservations
+const getAllReservations = async (req, res) => {
+  const reservations = await Reservation.find({}).sort({ date: 1 });
+  res.status(200).json(reservations);
+};
+
+// get a single reservation
+
+// create a new reservation
+const createReservation = async (req, res) => {
+  const { name, unit, date, timeFrom, timeTo } = req.body;
+  try {
+    const user_id = req.user._id;
+    const reservation = await Reservation.create({
+      name,
+      unit,
+      date,
+      timeFrom,
+      timeTo,
+      user_id,
+    });
+    res.send(reservation);
+  } catch (error) {
+    res.send(error.message);
+  }
+};
+
+// delete a reservation
+
+const deleteReservation = async (req, res) => {
+  const id = req.params.id;
+  await Reservation.findByIdAndRemove(id).exec();
+  res.send("reservation deleted successfully");
+};
+
+// update a reservation
+
+const updateReservation = async (req, res) => {
+  const id = req.params.id;
+  await Reservation.findOneAndUpdate({ _id: id }, { ...req.body });
+  res.send("reservation deleted successfully");
+};
+
+module.exports = {
+  createReservation,
+  getAllReservations,
+  deleteReservation,
+  updateReservation,
+};
