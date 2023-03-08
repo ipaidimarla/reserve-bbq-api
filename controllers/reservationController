@@ -10,16 +10,15 @@ const getAllReservations = async (req, res) => {
 
 // create a new reservation
 const createReservation = async (req, res) => {
-  const { name, unit, date, timeFrom, timeTo } = req.body;
+  const { name, unit, date, timeFrom, timeTo, type } = req.body;
   try {
-    const user_id = req.user._id;
     const reservation = await Reservation.create({
       name,
       unit,
       date,
       timeFrom,
       timeTo,
-      user_id,
+      type,
     });
     res.send(reservation);
   } catch (error) {
@@ -37,15 +36,10 @@ const deleteReservation = async (req, res) => {
 
 // update a reservation
 
-const updateReservation = async (req, res) => {
-  const id = req.params.id;
-  await Reservation.findOneAndUpdate({ _id: id }, { ...req.body });
-  res.send("reservation deleted successfully");
-};
+
 
 module.exports = {
   createReservation,
   getAllReservations,
   deleteReservation,
-  updateReservation,
 };

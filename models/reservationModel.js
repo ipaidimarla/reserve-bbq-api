@@ -21,9 +21,8 @@ const ReservationSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    user_id: {
+    type: {
       type: String,
-      required: true,
     },
   },
   { timestamps: true }
